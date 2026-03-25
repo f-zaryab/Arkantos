@@ -1,0 +1,17 @@
+{
+  "name": "arkantos-monorepo",
+  "version": "1.0.0",
+  "description": "Arkantos Monorepo to configure Arkantos CLI-Package and Client-App",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=arkantos"
+  },
+  "keywords": [],
+  "author": "zaryab",
+  "license": "ISC"
+}
