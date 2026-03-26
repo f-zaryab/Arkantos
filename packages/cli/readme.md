@@ -15,3 +15,11 @@ arkantos init
 
 arkantos add button
 ```
+
+### Fetching Components (Testing)
+
+```bash
+arkantos add button
+
+arkantos add button-simple
+```
