@@ -1,0 +1,17 @@
+{
+  "id": "hero-basic",
+  "name": "Basic Hero",
+  "description": "Basic hero banner section",
+  "category": "sections",
+  "subcategory": "hero-sections",
+  "files": [
+    {
+      "source": "hero-basic.tsx",
+      "target": "components/sections/hero-basic.tsx"
+    }
+  ],
+  "dependencies": ["lucide-react", "clsx"],
+  "registryDependencies": [],
+  "tags": ["hero-section", "sections"],
+  "keywords": ["hero", "basic"]
+}

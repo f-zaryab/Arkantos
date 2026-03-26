@@ -2,6 +2,7 @@
 
 import { Command } from "commander";
 import kleur from "kleur";
+import addCommand from "../commands/add.js";
 
 const program = new Command();
 
@@ -26,8 +27,15 @@ program
 program
   .command("add <component>")
   .description("Add a component to the current project")
-  .action((component: string) => {
-    console.log(kleur.green(`npm add ${component}`));
+  .action(async (component: string) => {
+    try {
+      const compName = addCommand(component);
+      console.log(kleur.green(`npm add ${compName}`));
+    } catch (error) {
+      console.error(kleur.red("Something went wrong."));
+      console.error(error);
+      process.exit(1);
+    }
   });
 
 program.parse();
