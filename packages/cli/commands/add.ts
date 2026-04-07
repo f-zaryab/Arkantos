@@ -1,11 +1,21 @@
-import findComponentFolder from "../src/lib/find-component.js";
+import resolveComponentTree from "../src/lib/resolve-component-tree.js";
 
 // Add Command function (main)
 const addCommand = async (componentName: string) => {
-  const component = await findComponentFolder(componentName);
-  console.log("Component-Path >>> ", component);
+  const resolvedComponents = await resolveComponentTree(componentName);
 
-  return `01: ${componentName}`;
+  console.log("\nInstall order:\n");
+
+  for (const component of resolvedComponents) {
+    console.log(`- ${component.meta.id} (${component.folderPath})`);
+    console.log({
+      id: component.meta.id,
+      deps: component.meta.registryDependencies,
+      files: component.meta.files,
+    });
+  }
+
+  return `Resolved "${componentName}" successfully.`;
 };
 
 export default addCommand;
@@ -21,28 +31,9 @@ export default addCommand;
 */
 
 /* 
-  // fs.readdir(templateRootCli, (err, files) => {
-  //   if (err) {
-  //     console.log("error-in-reading: ", err);
-  //   }
-
-  //   console.log("files >>> ", files);
-
-  //   files.forEach((element) => {
-  //     console.log("Ele: ", element);
-  //   });
-  // });
-
-  // const components = fs.readdirSync(templateRootCli, {
-  //   withFileTypes: true,
-  // });
-
-  // components.forEach((item) => {
-  //   console.log("Item: ", item);
-
-  //   if (item.isDirectory()) {
-  //     console.log("Component >>> ", item.name);
-  //   }
-  // });
-
+  addCommand() calls resolveComponentTree()
+      resolveComponentTree() calls:
+          findComponentFolder()
+          readComponentMeta()
+              readComponentMeta() validates against Zod
 */

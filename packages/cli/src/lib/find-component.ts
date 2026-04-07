@@ -13,7 +13,12 @@ DETAILS
 
 import fs from "node:fs/promises";
 import path from "node:path";
+import { json, z } from "zod";
 import { getTemplatesRoot, gettingCliDistFolder } from "./utils.js";
+
+const RegistryLookupSchema = z.object({
+  id: z.string(),
+});
 
 const findComponentFolder = async (
   componentId: string,
@@ -65,16 +70,18 @@ const findComponentFolder = async (
 
         try {
           // Find name of different components in sub-categories folder
-          const componentItemsMetaFile = await fs.readFile(
-            metaFileComponentPath,
-            "utf-8",
-          );
+          const metaRaw = await fs.readFile(metaFileComponentPath, "utf-8");
 
-          // Parsing meta
-          const meta = JSON.parse(componentItemsMetaFile);
+          // Parsing json of meta.json
+          const json = JSON.parse(metaRaw);
+
+          // Validating with Zod
+          const parsed = RegistryLookupSchema.safeParse(json);
+
+          if (!parsed.success) continue;
 
           // Comparing meta.id with component name passed
-          if (meta.id === componentId) {
+          if (parsed.data.id === componentId) {
             return componentFolderPath;
           }
         } catch {

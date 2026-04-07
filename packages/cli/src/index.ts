@@ -29,7 +29,7 @@ program
   .description("Add a component to the current project")
   .action(async (component: string) => {
     try {
-      const compName = addCommand(component);
+      const compName = await addCommand(component);
       console.log(kleur.green(`npm add ${compName}`));
     } catch (error) {
       console.error(kleur.red("Something went wrong."));

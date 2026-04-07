@@ -22,5 +22,8 @@ import {
 //   keywords: string[];
 // };
 
-export type RegistryItem = z.infer<typeof RegistryItemSchema>;
+// export type RegistryItem = z.infer<typeof RegistryItemSchema>;
+// export type RegistryFile = z.infer<typeof RegistryFileSchema>;
+
 export type RegistryFile = z.infer<typeof RegistryFileSchema>;
+export type RegistryItem = z.infer<typeof RegistryItemSchema>;
