@@ -1,21 +1,32 @@
+import collectInstallPlan from "../src/lib/collect-install-plan.js";
 import resolveComponentTree from "../src/lib/resolve-component-tree.js";
 
 // Add Command function (main)
 const addCommand = async (componentName: string) => {
-  const resolvedComponents = await resolveComponentTree(componentName);
+  // const resolvedComponents = await resolveComponentTree(componentName);
+  const installPlan = await collectInstallPlan(componentName);
 
-  console.log("\nInstall order:\n");
+  console.log("\nInstall Plan:\n");
 
-  for (const component of resolvedComponents) {
-    console.log(`- ${component.meta.id} (${component.folderPath})`);
-    console.log({
-      id: component.meta.id,
-      deps: component.meta.registryDependencies,
-      files: component.meta.files,
-    });
+  // for (const component of resolvedComponents) {
+  //   console.log(`- ${component.meta.id} (${component.folderPath})`);
+  //   console.log({
+  //     id: component.meta.id,
+  //     deps: component.meta.registryDependencies,
+  //     files: component.meta.files,
+  //   });
+  // }
+
+  for (const item of installPlan) {
+    console.log(`Component: ${item.componentId}`);
+    console.log(`Source: ${item.sourcePath}`);
+    console.log(`Target: ${item.targetPath}`);
+    console.log("");
   }
 
-  return `Resolved "${componentName}" successfully.`;
+  return `Install plan for "${componentName}" generated successfully.`;
+
+  // return `Resolved "${componentName}" successfully.`;
 };
 
 export default addCommand;

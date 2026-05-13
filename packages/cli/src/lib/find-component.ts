@@ -1,19 +1,6 @@
-/* 
-META-DRIVEN LOOKUP
-1. Find every meta.json
-2. Read it
-3. Match meta.id === componentId
-
-DETAILS
-1. Locate path of template folder
-2. Use that path to extract folder name
-3. Go inside folder, extract path
-4. Again use that path to extract folder name
-*/
-
 import fs from "node:fs/promises";
 import path from "node:path";
-import { json, z } from "zod";
+import { z } from "zod";
 import { getTemplatesRoot, gettingCliDistFolder } from "./utils.js";
 
 const RegistryLookupSchema = z.object({
@@ -96,3 +83,16 @@ const findComponentFolder = async (
 };
 
 export default findComponentFolder;
+
+/* 
+META-DRIVEN LOOKUP
+1. Find every meta.json
+2. Read it
+3. Match meta.id === componentId
+
+DETAILS
+1. Locate path of template folder
+2. Use that path to extract folder name
+3. Go inside folder, extract path
+4. Again use that path to extract folder name
+*/
