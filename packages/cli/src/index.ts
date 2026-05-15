@@ -30,10 +30,11 @@ program
   .action(async (component: string) => {
     try {
       const compName = await addCommand(component);
-      console.log(kleur.green(`npm add ${compName}`));
+      console.log(kleur.green(compName));
     } catch (error) {
-      console.error(kleur.red("Something went wrong."));
-      console.error(error);
+      const message =
+        error instanceof Error ? error.message : "Unknown error occurred.";
+      console.error(kleur.red("Error: ") + kleur.yellow(message));
       process.exit(1);
     }
   });

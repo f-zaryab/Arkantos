@@ -1,32 +1,26 @@
+import checkFileConflicts from "../src/lib/check-file-conflicts.js";
 import collectInstallPlan from "../src/lib/collect-install-plan.js";
-import resolveComponentTree from "../src/lib/resolve-component-tree.js";
+import confirmOverwrite from "../src/lib/confirm-overwrite.js";
+import copyComponentFiles from "../src/lib/copy-component-files.js";
 
 // Add Command function (main)
 const addCommand = async (componentName: string) => {
-  // const resolvedComponents = await resolveComponentTree(componentName);
   const installPlan = await collectInstallPlan(componentName);
 
-  console.log("\nInstall Plan:\n");
+  // Check conflict results
+  const conflictResult = await checkFileConflicts(installPlan);
 
-  // for (const component of resolvedComponents) {
-  //   console.log(`- ${component.meta.id} (${component.folderPath})`);
-  //   console.log({
-  //     id: component.meta.id,
-  //     deps: component.meta.registryDependencies,
-  //     files: component.meta.files,
-  //   });
-  // }
+  // Check whether can continue based on conflicts and users input
+  const canContinue = await confirmOverwrite(conflictResult);
 
-  for (const item of installPlan) {
-    console.log(`Component: ${item.componentId}`);
-    console.log(`Source: ${item.sourcePath}`);
-    console.log(`Target: ${item.targetPath}`);
-    console.log("");
+  if (!canContinue) {
+    return `Installation cancelled. No files were changed.`;
   }
 
-  return `Install plan for "${componentName}" generated successfully.`;
+  // All checks passed, copy files
+  await copyComponentFiles(installPlan);
 
-  // return `Resolved "${componentName}" successfully.`;
+  return `Component "${componentName}" installed successfully.`;
 };
 
 export default addCommand;

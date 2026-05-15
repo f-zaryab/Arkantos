@@ -22,7 +22,7 @@ const collectInstallPlan = async (
 
     for (const file of meta.files) {
       const sourcePath = path.resolve(folderPath, file.source);
-      const targetPath = path.resolve(folderPath, file.target);
+      const targetPath = path.resolve(targetRoot, file.target);
 
       installPlan.push({
         componentId: meta.id,
